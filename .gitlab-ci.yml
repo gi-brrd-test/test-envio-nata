@@ -1,0 +1,36 @@
+image: docker:latest
+
+include:
+  project: 'banreservas1/proyectos-banreservas/sistemas-distribuidos/gi/idg/code_ci_cd'
+  ref: main
+  file: 
+    - '/.gitlab/ci/cleanup.yml'
+    - '/.gitlab/ci/version/version.yml'
+    - '/.gitlab/ci/build.yml'
+    - '/.gitlab/ci/deploy-metodo-dev.yml'
+    - '/.gitlab/ci/deploy-metodo-qa.yml'
+    - '/.gitlab/ci/deploy-metodo-prod-node1.yml'
+    - '/.gitlab/ci/deploy-metodo-prod-node2.yml'
+
+stages:
+  - cleanup
+  - version
+  - build
+  - deploy-dev
+  - deploy-qa
+  - deploy-prod-node1
+  - deploy-prod-node2
+
+variables:
+  PATH_AUTOMATION_DEPLOYMENT: ${PATH_AUTOMATION_DEPLOYMENT}
+  SSH_PRIVATE_KEY: ${SSH_PRIVATE_KEY}
+  REGISTRY: ${REGISTRY}
+  LOGINREGISTRY: ${LOGINREGISTRY}
+  PASSREGISTRY: ${PASSREGISTRY}
+  ARGOCD_PROJECT_NAME: test-envio-nata
+  REPO_BRANCH_NAME: main
+  FILE_VERSION: version.json
+  REPO_NAME: test-envio-nata
+  PROJECT_TYPE: datapower
+  PRIVATE_ACCESS_REPO: git@gitlab.com:banreservas1/proyectos-banreservas/sistemas-distribuidos/gi/idg/mpg/financierasaro/test-envio-nata.git
+  

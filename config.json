@@ -1,0 +1,82 @@
+{
+  "LoadConfiguration": {
+    "StylePolicyAction": [
+      {
+        "name": "Action_FinancierasARO_test-envio-nata_Keycloak",
+        "Type": "gatewayscript",
+        "Input": "INPUT",
+        "GatewayScriptLocation": "local:///shared/utils/keycloakAutorizacion.js",
+        "Output": "PIPE"
+      },
+      {
+        "name": "Action_FinancierasARO_test-envio-nata_Req",
+        "Type": "gatewayscript",
+        "Input": "PIPE",
+        "GatewayScriptLocation": "local:///FinancierasARO/test-envio-nata_1_Req.js",
+        "Output": "OUTPUT"
+      },
+      {
+        "name": "Action_FinancierasARO_test-envio-nata_Res",
+        "Type": "gatewayscript",
+        "Input": "INPUT",
+        "GatewayScriptLocation": "local:///FinancierasARO/test-envio-nata_1_Res.js",
+        "Output": "OUTPUT"
+      }
+    ],
+    "StylePolicyRule": [
+      {
+        "name": "FinancierasARO_rule_test-envio-nata_Req",
+        "mAdminState": "enabled",
+        "Actions": [
+          "Action_FinancierasARO_test-envio-nata_Keycloak",
+          "Action_FinancierasARO_test-envio-nata_Req"
+        ],
+        "Direction": "request-rule"
+      },
+      {
+        "name": "FinancierasARO_rule_test-envio-nata_Res",
+        "Actions": "Action_FinancierasARO_test-envio-nata_Res",
+        "Direction": "response-rule"
+      }
+    ],
+    "Matching": [
+      {
+        "name": "MR_FinancierasARO_test-envio-nata_Req",
+        "MatchRules": {
+          "Type": "url",
+          "Url": "//financieras/v1/testnata",
+          "Method": "default"
+        }
+      },
+      {
+        "name": "MR_FinancierasARO_test-envio-nata_Res",
+        "MatchRules": {
+          "Type": "url",
+          "Url": "//v1/send-nata",
+          "Method": "default"
+        }
+      }
+    ],
+    "StylePolicy": {
+      "name": "FinancierasARO_policy",
+      "PolicyMaps": [
+        {
+          "Match": {
+            "value": "MR_FinancierasARO_test-envio-nata_Req"
+          },
+          "Rule": {
+            "value": "FinancierasARO_rule_test-envio-nata_Req"
+          }
+        },
+        {
+          "Match": {
+            "value": "MR_FinancierasARO_test-envio-nata_Res"
+          },
+          "Rule": {
+            "value": "FinancierasARO_rule_test-envio-nata_Res"
+          }
+        }
+      ]
+    }
+  }
+}

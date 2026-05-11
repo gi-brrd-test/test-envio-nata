@@ -1,0 +1,20 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+      - 'hotfix/**'
+  workflow_dispatch:
+    inputs:
+      rollback_tag:
+        description: 'Tag para rollback'
+        required: false
+        default: ''
+
+jobs:
+  deploy:
+    uses: natagra201spam/dp-code-ci-cd/.github/workflows/deploy-metodo.yml@main
+    with:
+      rollback_tag: ${{ inputs.rollback_tag || '' }}
+    secrets: inherit
