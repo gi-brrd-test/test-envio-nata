@@ -14,7 +14,7 @@ on:
 
 jobs:
   deploy:
-    uses: natagra201spam/dp-code-ci-cd/.github/workflows/deploy-metodo.yml@main
+    uses: gi-brrd-test/dp-code-ci-cd/.github/workflows/deploy-metodo.yml@main
     with:
       rollback_tag: ${{ inputs.rollback_tag || '' }}
     secrets: inherit
