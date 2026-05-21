@@ -13,14 +13,15 @@ on:
         default: ''
 
 jobs:
+  version:
+    if: github.event_name == 'push'
+    uses: gi-brrd-test/dp-code-ci-cd/.github/workflows/version.yml@main
+    secrets: inherit
+
   deploy:
+    needs: [version]
+    if: always() && (needs.version.result == 'success' || needs.version.result == 'skipped')
     uses: gi-brrd-test/dp-code-ci-cd/.github/workflows/deploy-metodo.yml@main
     with:
       rollback_tag: ${{ inputs.rollback_tag || '' }}
-    secrets: inherit
-
-  version:
-    needs: deploy
-    if: github.event_name == 'push'
-    uses: gi-brrd-test/dp-code-ci-cd/.github/workflows/version.yml@main
     secrets: inherit
