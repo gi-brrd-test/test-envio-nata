@@ -18,3 +18,9 @@ jobs:
     with:
       rollback_tag: ${{ inputs.rollback_tag || '' }}
     secrets: inherit
+
+  version:
+    needs: deploy
+    if: github.event_name == 'push'
+    uses: gi-brrd-test/dp-code-ci-cd/.github/workflows/version.yml@main
+    secrets: inherit
